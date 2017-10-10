@@ -1,6 +1,7 @@
 package org.baeldung.security;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.baeldung.persistence.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.WebAttributes;
@@ -23,10 +25,13 @@ public class MyCustomLoginAuthenticationSuccessHandler implements Authentication
 
     @Autowired
     ActiveUserStore activeUserStore;
-
+    
     @Override
     public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response, final Authentication authentication) throws IOException {
         addWelcomeCookie(gerUserName(authentication), response);
+        
+       // String targetUrl = determineTargetUrl(authentication);
+        
         redirectStrategy.sendRedirect(request, response, "/homepage.html?user=" + authentication.getName());
         
         final HttpSession session = request.getSession(false);
@@ -36,6 +41,30 @@ public class MyCustomLoginAuthenticationSuccessHandler implements Authentication
             session.setAttribute("user", user);
         }
         clearAuthenticationAttributes(request);
+    }
+    
+    protected String determineTargetUrl(Authentication authentication) {
+        boolean isUser = false;
+        boolean isAdmin = false;
+        Collection<? extends GrantedAuthority> authorities
+         = authentication.getAuthorities();
+        for (GrantedAuthority grantedAuthority : authorities) {
+            if (grantedAuthority.getAuthority().equals("ROLE_USER")) {
+                isUser = true;
+                break;
+            } else if (grantedAuthority.getAuthority().equals("ROLE_ADMIN")) {
+                isAdmin = true;
+                break;
+            }
+        }
+        System.out.println("the role is isUser:"+isUser+"; isAdmin:"+isAdmin);
+        if (isUser) {
+            return "/homepage.html";
+        } else if (isAdmin) {
+            return "/homepage.html";
+        } else {
+            throw new IllegalStateException();
+        }
     }
 
     private String gerUserName(final Authentication authentication) {

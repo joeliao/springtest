@@ -22,6 +22,12 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 
 @RunWith(SpringRunner.class)
@@ -88,6 +94,28 @@ public class UserIntegrationTest {
     public void whenRemovingTokenThenUser_thenCorrect() {
         tokenRepository.delete(tokenId);
         userRepository.delete(userId);
+    }
+    
+    @Test
+    public void importDataCheckTest() {
+    	Path wiki_path = Paths.get("/Users/workspace/data", "testcheck");
+
+        Charset charset = Charset.forName("utf-8");
+        try {
+          List<String> lines = Files.readAllLines(wiki_path, charset);
+          int i=1;
+          for (String line : lines) {
+        	  	String[] strarr=line.split("\",\"");
+        	  	if (strarr.length!=7)
+        	  		System.out.println(strarr.length+" "+i+" "+line);
+        	  	//if (line.indexOf("\"0"))
+        	  	//	System.out.println(strarr.length+" "+i+" "+line);
+        	  	i++;
+          }
+        } catch (IOException e) {
+          System.out.println(e);
+        }
+
     }
 
 }

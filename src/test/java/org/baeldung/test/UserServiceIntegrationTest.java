@@ -9,6 +9,7 @@ import static org.junit.Assert.assertTrue;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import org.baeldung.persistence.dao.RoleRepository;
@@ -255,6 +256,18 @@ public class UserServiceIntegrationTest {
         assertNotNull(user.getId());
         assertEquals(email, user.getEmail());
         return user;
+    }
+    
+    @Test
+    public void getRoles() {
+    		List<Role> alist=roleRepository.findAll();
+    		System.out.println(alist);
+    }
+    
+    @Test
+    public void getUsers() {
+    		List<User> alist=userRepository.findAll();
+    		System.out.println(alist);
     }
 
 }
