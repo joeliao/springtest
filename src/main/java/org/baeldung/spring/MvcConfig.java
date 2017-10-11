@@ -24,6 +24,10 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 @EnableWebMvc
 public class MvcConfig extends WebMvcConfigurerAdapter {
 
+	private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
+			"classpath:/META-INF/resources/", "classpath:/resources/",
+			"classpath:/static/", "classpath:/public/" };
+	
     public MvcConfig() {
         super();
     }
@@ -63,7 +67,15 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**").addResourceLocations("/", "/resources/");
+        //registry.addResourceHandler("/resources/**").addResourceLocations("/", "/resources/");
+    	if (!registry.hasMappingForPattern("/webjars/**")) {
+    		registry.addResourceHandler("/webjars/**").addResourceLocations(
+    				"classpath:/META-INF/resources/webjars/");
+    	}
+    	if (!registry.hasMappingForPattern("/**")) {
+    		registry.addResourceHandler("/**").addResourceLocations(
+    				CLASSPATH_RESOURCE_LOCATIONS);
+    	}
     }
 
     @Override

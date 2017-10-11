@@ -18,13 +18,13 @@ public class AppController {
 	@Autowired
 	ModelSystemViewRepository model_system_repo;
 	
-	@RequestMapping(value = "admission2017", method = RequestMethod.GET)
-	@ResponseBody
+	@RequestMapping(value = "admission2017", method = RequestMethod.GET,produces = "text/plain; charset=utf-8")
+	//@ResponseBody
     public String getAdmission2017() {
 		Iterable<ModelSystemView> modelSys=model_system_repo.findAll();
 		modelSys.forEach(system->System.out.println(system));
         //model.addAttribute("users", null);
-        return modelSys.toString();
+        return "modelSystemView";
 		//return "users";
     }
 }
