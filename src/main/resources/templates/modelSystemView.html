@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
+test
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"></meta>
   <link rel="shortcut icon" type="/image/ico" href="favicon.ico" />
   <title>SlickGrid example 1: Basic grid</title>
@@ -32,37 +33,51 @@
 <script src="/js/slick.core.js"></script>
 <script src="/js/slick.grid.js"></script>
 
-<script>
+<script th:inline="javascript">
   var grid;
   var columns = [
-    {id: "title", name: "Title", field: "title"},
-    {id: "duration", name: "Duration", field: "duration"},
-    {id: "%", name: "% Complete", field: "percentComplete"},
-    {id: "start", name: "Start", field: "start"},
-    {id: "finish", name: "Finish", field: "finish"},
-    {id: "effort-driven", name: "Effort Driven", field: "effortDriven"}
+    {id: "id", name: "id", field: "id"},
+    {id: "province", name: "省份", field: "province"},
+    {id: "city", name: "城市", field: "city"},
+    {id: "colledgeCode", name: "院校代码", field: "colledgeCode"},
+    {id: "colledgeName", name: "院校名称", field: "colledgeName"},
+    {id: "majorCode", name: "专业代码", field: "majorCode"},
+    {id: "majorName", name: "专业名称", field: "majorName"},
+    {id: "years", name: "学制", field: "years"},
+    {id: "level", name: "本专科", field: "level"},
+    {id: "plannedNumber", name: "计划数", field: "plannedNumber"},
+    {id: "selectedTest", name: "选考科目要求", field: "selectedTest"},
+    {id: "majorCategory", name: "专业大类", field: "majorCategory"},
+    {id: "tuition", name: "收费标准", field: "tuition"},
+    {id: "collegeType", name: "学校类别", field: "collegeType"},
+    {id: "note", name: "备注", field: "note"},
+    {id: "lastOrder", name: "上年批次", field: "lastOrder"},
+    {id: "lastAdmission", name: "上年录取数", field: "lastAdmission"},
+    {id: "lastAdmissionScore", name: "上年录取平均分", field: "lastAdmissionScore"},
+    {id: "lastPosition", name: "上年段位", field: "lastPosition"}
   ];
 
   var options = {
     enableCellNavigation: true,
     enableColumnReorder: false
   };
+  
+ $(document).ready(function() {
+	 /*<![CDATA[*/
+	    console.log("system is ready");
+	    //data = $('#objects').val()
+	   data=eval([[${objectList}]]); 
+	   // data=[{"id":1,"province":null,"city":"金华","colledgeCode":"0004","colledgeName":"浙江师范大学（省重点建设高校）","majorCode":"020","majorName":"小学教育(在金职院就读)(师范)","years":4,"level":"本科","plannedNumber":29,"selectedTest":"","majorCategory":"","tuition":"5500","collegeType":"公办，77/3","note":"在金华职业技术学院就读。","lastOrder":"二批","lastAdmission":"2","lastAdmissionScore":"542","lastPosition":"35"},{"id":2,"province":null,"city":"金华","colledgeCode":"0004","colledgeName":"浙江师范大学（省重点建设高校）","majorCode":"040","majorName":"新闻传播学类(中外合作办学)","years":4,"level":"本科","plannedNumber":46,"selectedTest":"历史地理技术","majorCategory":"","tuition":"29000","collegeType":"公办，77/3","note":"含广告学专业。与澳大利亚伊迪斯科文大学合作，部分课程英文授课。要求高考外语成绩不低于100分。","lastOrder":"二批","lastAdmission":"2","lastAdmissionScore":"542","lastPosition":"35"},{"id":3,"province":null,"city":"金华","colledgeCode":"0004","colledgeName":"浙江师范大学（省重点建设高校）","majorCode":"058","majorName":"计算机类(中外合作办学)","years":4,"level":"本科","plannedNumber":28,"selectedTest":"技术物理历史","majorCategory":"","tuition":"23000","collegeType":"公办，77/3","note":"含软件工程专业。与英国伍斯特大学合作，部分课程英文授课。要求高考外语成绩不低于90分。","lastOrder":"二批","lastAdmission":"2","lastAdmissionScore":"542","lastPosition":"35"},{"id":4,"province":null,"city":"金华","colledgeCode":"0004","colledgeName":"浙江师范大学（省重点建设高校）","majorCode":"070","majorName":"机械设计制造及其自动化(全英文班)","years":4,"level":"本科","plannedNumber":10,"selectedTest":"物理化学生物","majorCategory":"","tuition":"5500","collegeType":"公办，77/3","note":"国际化专业，全英文授课。","lastOrder":"二批","lastAdmission":"2","lastAdmissionScore":"544","lastPosition":"35"},{"id":5,"province":null,"city":"金华","colledgeCode":"0004","colledgeName":"浙江师范大学（省重点建设高校）","majorCode":"071","majorName":"交通运输","years":4,"level":"本科","plannedNumber":6,"selectedTest":"物理化学生物","majorCategory":"","tuition":"5500","collegeType":"公办，77/3","note":"","lastOrder":"二批","lastAdmission":"1","lastAdmissionScore":"524","lastPosition":"31"},{"id":6,"province":null,"city":"金华","colledgeCode":"0004","colledgeName":"浙江师范大学（省重点建设高校）","majorCode":"072","majorName":"交通运输(全英文班)","years":4,"level":"本科","plannedNumber":13,"selectedTest":"物理化学生物","majorCategory":"","tuition":"5500","collegeType":"公办，77/3","note":"国际化专业，全英文授课。","lastOrder":"二批","lastAdmission":"1","lastAdmissionScore":"524","lastPosition":"31"},{"id":7,"province":null,"city":"杭州","colledgeCode":"0008","colledgeName":"浙江理工大学","majorCode":"008","majorName":"电子商务(少数民族班)","years":4,"level":"本科","plannedNumber":19,"selectedTest":"物理化学地理","majorCategory":"","tuition":"4800","collegeType":"公办，116/5","note":"只招少数民族考生。","lastOrder":"二批","lastAdmission":"2","lastAdmissionScore":"541","lastPosition":"35"},{"id":8,"province":null,"city":"杭州","colledgeCode":"0008","colledgeName":"浙江理工大学","majorCode":"030","majorName":"纺织类(中外合作办学)","years":4,"level":"本科","plannedNumber":43,"selectedTest":"物理化学历史","majorCategory":"","tuition":"23000","collegeType":"公办，116/5","note":"含服装设计与工程(中美合作项目)专业。要求高考外语成绩不低于105分。","lastOrder":"二批","lastAdmission":"25","lastAdmissionScore":"538","lastPosition":"35"},{"id":9,"province":null,"city":"温州","colledgeCode":"0009","colledgeName":"温州医科大学","majorCode":"007","majorName":"公共管理类","years":4,"level":"本科","plannedNumber":117,"selectedTest":"","majorCategory":"","tuition":"4800","collegeType":"公办，128/6","note":"茶山校区。含公共事业管理、劳动与社会保障、市场营销专业。","lastOrder":"二批","lastAdmission":"1","lastAdmissionScore":"543","lastPosition":"36"},{"id":10,"province":null,"city":"温州","colledgeCode":"0009","colledgeName":"温州医科大学","majorCode":"008","majorName":"药学类","years":4,"level":"本科","plannedNumber":1,"selectedTest":"物理化学生物","majorCategory":"","tuition":"5500","collegeType":"公办，128/6","note":"茶山校区。含药学、生物制药、中药学专业。","lastOrder":"二批","lastAdmission":"20","lastAdmissionScore":"536","lastPosition":"35"},{"id":11,"province":null,"city":"温州","colledgeCode":"0009","colledgeName":"温州医科大学","majorCode":"016","majorName":"临床药学","years":5,"level":"本科","plannedNumber":1,"selectedTest":"物理化学生物","majorCategory":"","tuition":"5500","collegeType":"公办，128/6","note":"茶山校区。","lastOrder":"二批","lastAdmission":"2","lastAdmissionScore":"539","lastPosition":"35"}];
 
-  $(function () {
-    var data = [];
-    for (var i = 0; i < 500; i++) {
-      data[i] = {
-        title: "Task " + i,
-        duration: "5 days",
-        percentComplete: Math.round(Math.random() * 100),
-        start: "01/01/2009",
-        finish: "01/05/2009",
-        effortDriven: (i % 5 == 0)
-      };
-    }
-
-    grid = new Slick.Grid("#myGrid", data, columns, options);
-  })
+	    //console.log(data);
+		//$.each(list, function(index, value ) {
+	//		alert( index + ": " + value );
+	//	});
+	    grid = new Slick.Grid("#myGrid", data, columns, options);
+	    /*]]>*/
+	});
 </script>
+
+<input type="hidden" id="objects" value="${objectList}"/>
 </body>
 </html>
