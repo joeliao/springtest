@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Locale;
 
+import org.baeldung.persistence.dao.ModelPlan2018Repository;
 import org.baeldung.persistence.dao.ModelSystemViewRepository;
+import org.baeldung.persistence.model.ModelPlan2018;
 import org.baeldung.persistence.model.ModelSystemView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class AppController {
 	@Autowired
 	ModelSystemViewRepository model_system_repo;
+	
+	@Autowired
+	ModelPlan2018Repository model_plan_repo;
 	
 	@RequestMapping(value = "admission2017", method = RequestMethod.GET,produces = "text/plain; charset=utf-8")
 	//@ResponseBody
@@ -51,6 +56,26 @@ public class AppController {
 		//model.addAttribute("users", null);
         //return "modelSystemView";
 		return "modelSystemView";
+    }
+	
+	@RequestMapping(value = "planview", method = RequestMethod.GET)
+	//@ResponseBody
+    public String getPlanView2018(Model model) {
+		Iterable<ModelPlan2018> modelPlan=model_plan_repo.getSampleData();
+		ObjectMapper mapper = new ObjectMapper();
+		String json = "";
+		try {
+			json = mapper.writeValueAsString(modelPlan);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		 System.out.println(json);
+		model.addAttribute("objectList",json);
+		//modelSys.forEach(system->System.out.println(system));
+       
+		//model.addAttribute("users", null);
+        //return "modelSystemView";
+		return "modelPlanView";
     }
 	
 	

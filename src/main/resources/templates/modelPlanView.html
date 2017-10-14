@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+plan View
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"></meta>
+  <link rel="shortcut icon" type="/image/ico" href="favicon.ico" />
+  <title>SlickGrid example 1: Basic grid</title>
+  <link rel="stylesheet" href="/css/slick.grid.css" type="text/css"/>
+  <link rel="stylesheet" href="/css/jquery-ui-1.11.3.custom.css" type="text/css"/>
+  <link rel="stylesheet" href="/css/examples.css" type="text/css"/>
+</head>
+<body>
+<div id="myGrid" style="height:500px;"></div>
+
+<script src="/js/jquery-1.11.2.min.js"></script>
+<script src="/js/jquery.event.drag-2.3.0.js"></script>
+<script src="/js/slick.core.js"></script>
+<script src="/js/slick.grid.js"></script>
+
+<script th:inline="javascript">
+  var grid;
+  var columns = [
+	    {id: "id", name: "id", field: "id"},
+	    {id: "province", name: "省份", field: "province"},
+	    {id: "city", name: "城市", field: "city"},
+	    {id: "colledgeCode", name: "院校代码", field: "colledgeCode"},
+	    {id: "colledgeName", name: "院校名称", field: "colledgeName"},
+	    {id: "majorCode", name: "专业代码", field: "majorCode"},
+	    {id: "majorName", name: "专业名称", field: "majorName"},
+	    {id: "years", name: "学制", field: "years"},
+	    {id: "level", name: "本专科", field: "level"},
+	    {id: "plannedNumber", name: "计划数", field: "plannedNumber"},
+	    {id: "selectedTest", name: "选考科目要求", field: "selectedTest"},
+	    {id: "majorCategory", name: "专业大类", field: "majorCategory"},
+	    {id: "tuition", name: "收费标准", field: "tuition"},
+	    {id: "collegeType", name: "学校类别", field: "collegeType"},
+	    {id: "note", name: "备注", field: "note"}
+	  ];
+
+  var options = {
+    enableCellNavigation: true,
+    enableColumnReorder: false
+  };
+  
+ $(document).ready(function() {
+	 /*<![CDATA[*/
+	    console.log("system is ready");
+	    //data = $('#objects').val()
+	   data=eval([[${objectList}]]); 
+	    
+	    /*]]>*/
+	   grid = new Slick.Grid("#myGrid", data, columns, options);
+	});
+</script>
+
+<input type="hidden" id="objects" value="${objectList}"/>
+</body>
+</html>
